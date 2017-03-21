@@ -20,7 +20,8 @@
                 <option>{{ hotel.name }}</option>
               {% endfor %}
             </select>
-            <button data-action="add" class="btn btn-primary btn-circle pull-right">+</button>
+            <button data-action="add" data-type="hotel" class="btn btn-primary btn-circle pull-right">+
+            </button>
           </div>
           <div>
             <h4>Restaurants</h4>
@@ -29,7 +30,8 @@
                 <option>{{ restaurant.name }}</option>
               {% endfor %}
             </select>
-            <button data-action="add" class="btn btn-primary btn-circle pull-right">+</button>
+            <button data-action="add" data-type="restaurants"class="btn btn-primary btn-circle pull-right"
+                    id="add-restaurant">+</button>
           </div>
           <div>
             <h4>Activities</h4>
@@ -38,7 +40,8 @@
                 <option>{{ activity.name }}</option>
               {% endfor %}
             </select>
-            <button data-action="add" class="btn btn-primary btn-circle pull-right">+</button>
+            <button data-action="add" data-type="activities" class="btn btn-primary btn-circle pull-right"
+            id="add-activity">+</button>
           </div>
         </div>
       </div>
@@ -62,29 +65,17 @@
         <div class="panel-body" id="itinerary">
           <div>
             <h4>My Hotel</h4>
-            <ul class="list-group">
-              <div class="itinerary-item">
-                <span class="title">Andaz Wall Street</span>
-                <button class="btn btn-xs btn-danger remove btn-circle">x</button>
-              </div>
+            <ul class="list-group" id="my-hotel">
             </ul>
           </div>
           <div>
             <h4>My Restaurants</h4>
-            <ul class="list-group">
-              <div class="itinerary-item">
-                <span class="title">Bouley</span>
-                <button class="btn btn-xs btn-danger remove btn-circle">x</button>
-              </div>
+            <ul class="list-group" id="my-restaurants">
             </ul>
           </div>
           <div>
             <h4>My Activities</h4>
-            <ul class="list-group">
-              <div class="itinerary-item">
-                <span class="title">Mahayana Buddhist Temple Association</span>
-                <button class="btn btn-xs btn-danger remove btn-circle">x</button>
-              </div>
+            <ul class="list-group" id="my-activities">
             </ul>
           </div>
         </div>
