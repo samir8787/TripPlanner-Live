@@ -19,3 +19,7 @@ $('#options-panel').on('click', 'button', function () {
   myListGroup.append(itineraryItem(selectedItem.val()));
 });
 
+$('#day-add').on('click', function(){
+  const buttonLength = ($(this).parent().children().length)
+  $(this).before('<button class="btn btn-circle day-btn">'+buttonLength+'</button>');
+})
