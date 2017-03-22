@@ -8,8 +8,19 @@ function Itinerary(defaultDays = 1) {
 }
 
 Itinerary.prototype.addDay = function (qty = 1) {
+  console.log('Button Click');
   for (let i = 0; i < qty; i++){
     this.days.push(new DayItinerary());
+    $.post('api/days', {
+      body: {
+        hotel: this.hotel,
+        restaurants: this.restaurants,
+        activities: this.activities
+      }
+    })
+      .then(function () {
+        console.log('POST made')
+      })
   }
   this.render();
 };
@@ -47,6 +58,7 @@ Itinerary.prototype.render = function (displayDay) {
 };
 
 function DayItinerary() {
+  this.num = null;
   this.hotel = [];
   this.restaurants = [];
   this.activities = [];

@@ -5,10 +5,10 @@ let tripPlannerModule =  function(){
   let restaurantChoices = $('select[data-type="restaurant"]');
   let activityChoices = $('select[data-type="activity"]');
 
-  let getHotels = function () {
-     return $.get('/api/hotels')
-      .then( function (hotels) {
-          return hotels;
+  let getResource = function (resourceName) {
+    return $.get(`/api/${resourceName}`)
+      .then( function (data) {
+          return data;
         }
       )
       .catch(function (err) {
@@ -16,27 +16,17 @@ let tripPlannerModule =  function(){
       })
   };
 
+  let getHotels = function () {
+     return getResource('hotels')
+  };
+
   let getRestaurants = function () {
-    return $.get('/api/restaurants')
-      .then( function (restaurants) {
-          return restaurants;
-        }
-      )
-      .catch(function (err) {
-        console.log(err)
-      })
+    return getResource('restaurants')
   };
 
 
   let getActivities = function () {
-    return $.get('/api/activities')
-      .then( function (activities) {
-          return activities;
-        }
-      )
-      .catch(function (err) {
-        console.log(err)
-      })
+    return getResource('activities')
   };
 
   let loadOptions = function (select, promise){
@@ -52,9 +42,9 @@ let tripPlannerModule =  function(){
 
   return {
     loadPage: function () {
-      loadOptions(hotelChoices, getHotels())
-      loadOptions(restaurantChoices, getRestaurants())
-      loadOptions(activityChoices, getActivities())
+      loadOptions(hotelChoices, getHotels());
+      loadOptions(restaurantChoices, getRestaurants());
+      loadOptions(activityChoices, getActivities());
     }
   }
 

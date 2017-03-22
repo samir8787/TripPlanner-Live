@@ -45,4 +45,24 @@ router.get('/days', function (req, res, next) {
  .catch(next);
 });
 
+router.post('/days', function (req, res, next) {
+  console.log(req.body);
+  Day.create(req.body)
+    .then((day) => {
+      console.log(day)
+    })
+    .catch(next);
+});
+
+router.get('/days/:num', function (req, res, next) {
+
+
+});
+
+
+router.put('/days/:num', function (req, res, next) {
+
+
+});
+
 module.exports = router;
