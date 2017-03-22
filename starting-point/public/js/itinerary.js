@@ -15,7 +15,16 @@ Itinerary.prototype.currentDay = function () {
   return this.days[this.displayDay - 1];
 };
 
-Itinerary.prototype.render = function () {
+Itinerary.prototype.render = function (displayDay) {
+   if(displayDay) this.displayDay = displayDay;
+   $('.day-buttons').empty();
+  itinerary.days.forEach(function (day, idx){
+   $('.day-buttons').append('<button class="btn btn-circle day-btn">' + (idx+1) + '</button>');
+  });
+   $('.day-buttons').append('<button class="btn btn-circle day-btn" id="day-add">+</button>');
+   var day_button = $('.day-buttons').children()[this.displayDay-1]
+   $(day_button).addClass('current-day')
+   $('#day-title span')[0].textContent = "Day "+this.displayDay;
   Object.keys(itinerary.currentDay()).forEach(function (category) {
     $('#my-' + category).empty();
     itinerary.currentDay()[category].forEach(function (item) {
@@ -58,16 +67,17 @@ $('#options-panel').on('click', 'button', function () {
 
 $('.day-buttons').on('click', 'button', function () {
   if (this.id === 'day-add') {
-    const buttonLength = ($(this).parent().children().length)
-    $(this).before('<button class="btn btn-circle day-btn">' + buttonLength + '</button>');
     itinerary.newDay();
+    itinerary.render();
   } else {
     itinerary.displayDay = this.textContent;
-    $('.day-btn.current-day').removeClass('current-day')
-    $(this).addClass('current-day');
-    ($('#day-title span'))[0].textContent = "Day "+this.textContent;
      itinerary.render();
   }
 });
 
 
+$('#day-title').on('click', 'button', function (){
+  (itinerary.days).splice(itinerary.displayDay-1,1);
+  ($('.day-btn.current-day')).remove()
+  itinerary.render(itinerary.displayDay-1)
+})
