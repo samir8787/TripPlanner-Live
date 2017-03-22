@@ -1,4 +1,3 @@
-var map ='test';
 $(function initializeMap (){
 
   var fullstackAcademy = new google.maps.LatLng(40.705086, -74.009151);
