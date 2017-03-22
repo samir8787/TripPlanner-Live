@@ -99,4 +99,3 @@ $('#day-title').on('click', 'button', function (){
   itinerary.removeDay(itinerary.displayDay)
 });
 
-console.log(map);
