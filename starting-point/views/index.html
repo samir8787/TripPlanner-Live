@@ -16,9 +16,6 @@
           <div>
             <h4>Hotels</h4>
             <select data-type="hotel" id="hotel-choices">
-              {% for hotel in hotels %}
-                <option data-location="{{ hotel.place.location }}">{{ hotel.name }}</option>
-              {% endfor %}
             </select>
             <button data-action="add" data-type="hotel" class="btn btn-primary btn-circle pull-right">+
             </button>
@@ -26,9 +23,6 @@
           <div>
             <h4>Restaurants</h4>
             <select data-type="restaurant" id="restaurant-choices">
-              {% for restaurant in restaurants %}
-                <option>{{ restaurant.name }}</option>
-              {% endfor %}
             </select>
             <button data-action="add" data-type="restaurants"class="btn btn-primary btn-circle pull-right"
                     id="add-restaurant">+</button>
@@ -36,9 +30,6 @@
           <div>
             <h4>Activities</h4>
             <select data-type="activity" id="activity-choices">
-              {% for activity in activities %}
-                <option>{{ activity.name }}</option>
-              {% endfor %}
             </select>
             <button data-action="add" data-type="activities" class="btn btn-primary btn-circle pull-right"
             id="add-activity">+</button>

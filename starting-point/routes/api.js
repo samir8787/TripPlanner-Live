@@ -18,7 +18,7 @@ router.get('/hotels', function (req, res, next) {
 });
 
 router.get('/restaurants', function (req, res, next) {
-  Hotel.findAll({
+  Restaurant.findAll({
     include: [Place]
   })
     .then(function (restaurants) {
@@ -28,7 +28,7 @@ router.get('/restaurants', function (req, res, next) {
 });
 
 router.get('/activities', function (req, res, next) {
-  Hotel.findAll({
+  Activity.findAll({
     include: [Place]
   })
     .then(function (activities) {

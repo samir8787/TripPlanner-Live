@@ -1,7 +1,9 @@
 
 let tripPlannerModule =  function(){
 
-  let hotelChoices = $('selector[data-type="hotel"]');
+  let hotelChoices = $('select[data-type="hotel"]');
+  let restaurantChoices = $('select[data-type="restaurant"]');
+  let activityChoices = $('select[data-type="activity"]');
 
   let getHotels = function () {
      return $.get('/api/hotels')
@@ -27,7 +29,7 @@ let tripPlannerModule =  function(){
 
 
   let getActivities = function () {
-    $.get('/api/activities')
+    return $.get('/api/activities')
       .then( function (activities) {
           return activities;
         }
@@ -37,17 +39,22 @@ let tripPlannerModule =  function(){
       })
   };
 
-  let loadHotels = function () {
-    getHotels()
-      .then(function (hotels) {
+  let loadOptions = function (select, promise){
+     promise.then(function(data){
+      data.forEach(function(data){
+        select.append('<option>'+data.name+'</option>')
       })
+     })
+     .catch(function(err){
+        console.log(err)
+      });
   };
 
   return {
     loadPage: function () {
-      console.log('Load all the options');
-      console.log(hotelChoices);
-      loadHotels()
+      loadOptions(hotelChoices, getHotels())
+      loadOptions(restaurantChoices, getRestaurants())
+      loadOptions(activityChoices, getActivities())
     }
   }
 
