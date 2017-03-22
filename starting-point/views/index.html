@@ -17,7 +17,7 @@
             <h4>Hotels</h4>
             <select data-type="hotel" id="hotel-choices">
               {% for hotel in hotels %}
-                <option>{{ hotel.name }}</option>
+                <option data-location="{{ hotel.place.location }}">{{ hotel.name }}</option>
               {% endfor %}
             </select>
             <button data-action="add" data-type="hotel" class="btn btn-primary btn-circle pull-right">+

@@ -1,14 +1,23 @@
 "use strict";
 
-console.log("Runned Itinerary.js");
-
-function Itinerary() {
+function Itinerary(defaultDays = 1) {
   this.days = [];
   this.displayDay = 1;
+  this.addDay(defaultDays);
+
 }
 
-Itinerary.prototype.newDay = function () {
-  this.days.push(new DayItinerary());
+Itinerary.prototype.addDay = function (qty = 1) {
+  for (let i = 0; i < qty; i++){
+    this.days.push(new DayItinerary());
+  }
+  this.render();
+};
+
+Itinerary.prototype.removeDay = function (dayNum) {
+  this.days.splice(dayNum-1,1);
+  this.displayDay -= 1;
+  itinerary.render()
 };
 
 Itinerary.prototype.currentDay = function () {
@@ -17,22 +26,25 @@ Itinerary.prototype.currentDay = function () {
 
 Itinerary.prototype.render = function (displayDay) {
    if(displayDay) this.displayDay = displayDay;
+
+   // Re render all the day buttons
    $('.day-buttons').empty();
-  itinerary.days.forEach(function (day, idx){
+  this.days.forEach(function (day, idx){
    $('.day-buttons').append('<button class="btn btn-circle day-btn">' + (idx+1) + '</button>');
   });
    $('.day-buttons').append('<button class="btn btn-circle day-btn" id="day-add">+</button>');
    var day_button = $('.day-buttons').children()[this.displayDay-1]
    $(day_button).addClass('current-day')
    $('#day-title span')[0].textContent = "Day "+this.displayDay;
-  Object.keys(itinerary.currentDay()).forEach(function (category) {
-    $('#my-' + category).empty();
-    itinerary.currentDay()[category].forEach(function (item) {
-      $('#my-' + category).append(itineraryItem(item));
-    })
-  })
-};
 
+   // Re-render all the data for the display day
+   Object.keys(this.currentDay()).forEach(function (category) {
+    $('#my-' + category).empty();
+    this.currentDay()[category].forEach(function (item) {
+      $('#my-' + category).append(itineraryItem(item.name));
+    })
+  }, this)
+};
 
 function DayItinerary() {
   this.hotel = [];
@@ -40,9 +52,18 @@ function DayItinerary() {
   this.activities = [];
 }
 
-let itinerary = new Itinerary();
-itinerary.newDay();
+DayItinerary.prototype.addItineraryItem = function (type, name, location) {
+  if (type == 'hotel') {
+    this[type][0] = {name: name, location: location};
+  } else {
+    this[type].push({name: name, location: location})
+  }
+  itinerary.render()
+};
 
+
+let itinerary = new Itinerary(3);
+itinerary.render();
 
 $('#itinerary').on('click', 'button', function () {
   ($(this).parent().remove())
@@ -55,29 +76,27 @@ function itineraryItem(title) {
 }
 
 $('#options-panel').on('click', 'button', function () {
-  let selectedItem = ($(this).prev());
-  let dayItinerary = itinerary.days[itinerary.displayDay - 1];
-  if (this.dataset.type == 'hotel') {
-    dayItinerary.hotel[0] = selectedItem.val();
-  } else {
-    dayItinerary[this.dataset.type].push(selectedItem.val())
+  let location = null;
+  let options = $(this).prev().children();
+  for (let i = 0; i < options.length; i++ ){
+    if (options[i].textContent === $(this).prev().val()){
+      location = options[i].dataset.location;
+    }
   }
-  itinerary.render();
+
+  itinerary.currentDay().addItineraryItem(this.dataset.type, $(this).prev().val(), location);
 });
 
 $('.day-buttons').on('click', 'button', function () {
   if (this.id === 'day-add') {
-    itinerary.newDay();
-    itinerary.render();
+    itinerary.addDay();
   } else {
-    itinerary.displayDay = this.textContent;
-     itinerary.render();
+    itinerary.render(this.textContent);
   }
 });
 
-
 $('#day-title').on('click', 'button', function (){
-  (itinerary.days).splice(itinerary.displayDay-1,1);
-  ($('.day-btn.current-day')).remove()
-  itinerary.render(itinerary.displayDay-1)
-})
+  itinerary.removeDay(itinerary.displayDay)
+});
+
+console.log(map);
