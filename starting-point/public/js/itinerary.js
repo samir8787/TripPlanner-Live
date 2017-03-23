@@ -8,19 +8,18 @@ function Itinerary(defaultDays = 1) {
 }
 
 Itinerary.prototype.addDay = function (qty = 1) {
-  console.log('Button Click');
   for (let i = 0; i < qty; i++){
-    this.days.push(new DayItinerary());
-    $.post('api/days', {
-      body: {
-        hotel: this.hotel,
-        restaurants: this.restaurants,
-        activities: this.activities
-      }
-    })
-      .then(function () {
-        console.log('POST made')
-      })
+   console.log('adding a new day');
+    var newDay = new DayItinerary();
+    this.days.push(newDay);
+    console.log("storing new day in database", newDay);
+    // $.post('api/days', newDay)
+    //   .then(function () {
+    //     console.log('POST made')
+    //   })
+    //   .catch(function(err){
+    //     console.log("error storing", err);
+    //   });
   }
   this.render();
 };
@@ -58,13 +57,14 @@ Itinerary.prototype.render = function (displayDay) {
 };
 
 function DayItinerary() {
-  this.num = null;
+  // this.num = null;
   this.hotel = [];
   this.restaurants = [];
   this.activities = [];
 }
 
 DayItinerary.prototype.addItineraryItem = function (type, name, location) {
+  console.log('adding an itinerary item to day')
   if (type == 'hotel') {
     this[type][0] = {name: name, location: location};
   } else {
@@ -95,7 +95,6 @@ $('#options-panel').on('click', 'button', function () {
       location = options[i].dataset.location;
     }
   }
-
   itinerary.currentDay().addItineraryItem(this.dataset.type, $(this).prev().val(), location);
 });
 
