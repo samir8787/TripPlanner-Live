@@ -46,17 +46,26 @@ router.get('/days', function (req, res, next) {
 });
 
 router.post('/days', function (req, res, next) {
-  console.log(req.body);
-  Day.create(req.body)
+  console.log('posting body', req.body)
+  Day.findOrCreate({
+    where: {
+      number: req.body.number,
+    }
+  })
     .then((day) => {
-      console.log(day)
     })
     .catch(next);
   res.sendStatus(200)
 });
 
 router.get('/days/:num', function (req, res, next) {
-
+  Day.findOne({
+    where: {
+      number: req.params.num
+    }
+  }).then(function(day){
+    res.json(day);
+  }). catch(next);
 
 });
 

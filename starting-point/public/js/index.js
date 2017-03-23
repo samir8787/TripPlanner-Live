@@ -29,10 +29,10 @@ let tripPlannerModule =  function(){
 
   return {
     loadPage: function () {
-      this.optionsPanel.loadOptions();
-      // this.itineraryPanel.display(1);
+      this.optionsPanel.load();
+      this.itineraryPanel.load();
     },
-    model: modelFactory(3),
+    model: modelFactory(1),
     optionsPanel: optionPanelFactory(),
     itineraryPanel: itineraryPanelFactory(),
     getHotels: getHotels,

@@ -12,8 +12,9 @@ let itineraryPanelFactory = function (){
       const button = this;
       if (button.id === 'day-add') {
         tripplanner.model.addDay();
-      } else {
-        itineraryPanel.display(button.textContent);
+        tripplanner.itineraryPanel.display();
+      } else{
+      tripplanner.itineraryPanel.display(button.textContent);
       }
     });
   }
@@ -21,13 +22,14 @@ let itineraryPanelFactory = function (){
   function setItineraryItemHandler() {
     itineraryPanel.on('click', 'button', function () {
       ($(this).parent().remove())
+      tripplanner.itineraryPanel.display(button.textContent);
     });
   }
 
   function setRemoveDayHandler() {
     removeDayButton.on('click', 'button', function (){
       tripplanner.model.removeDay(tripplanner.model.currentDay);
-      itineraryPanel.display(tripplanner.model.currentDay-1)
+      tripplanner.itineraryPanel.display(tripplanner.model.currentDay-1)
     });
   }
 
@@ -36,28 +38,28 @@ let itineraryPanelFactory = function (){
     load: function () {
       setDayButtonsHandler();
       setItineraryItemHandler();
-      setRemoveDayHandler()
+      setRemoveDayHandler();
+      this.display();
     },
     display: function (dayNum) {
-        if(dayNum) this.currentDay = dayNum;
-
+        if(dayNum) tripplanner.model.displayDay = dayNum;
         // Create Day Buttons
         $('.day-buttons').empty();
-        this.days.forEach(function (day, idx){
+        tripplanner.model.days.forEach(function (day, idx){
           $('.day-buttons').append('<button class="btn btn-circle day-btn">' + (idx+1) + '</button>');
         });
         $('.day-buttons').append('<button class="btn btn-circle day-btn" id="day-add">+</button>');
-        var day_button = $('.day-buttons').children()[this.currentDay-1]
+        var day_button = $('.day-buttons').children()[tripplanner.model.displayDay-1]
         $(day_button).addClass('current-day')
-        $('#day-title span')[0].textContent = "Day "+this.currentDay;
+        $('#day-title span')[0].textContent = "Day "+tripplanner.model.displayDay;
 
         // Re-render all the data for the display day
-        Object.keys(this.currentDay()).forEach(function (category) {
+        Object.keys(tripplanner.model.currentDay()).forEach(function (category) {
           $('#my-' + category).empty();
-          this.currentDay()[category].forEach(function (item) {
+          tripplanner.model.currentDay()[category].forEach(function (item) {
             $('#my-' + category).append(itineraryItem(item.name));
           })
-        }, this)
+        })
       }
   }
 };

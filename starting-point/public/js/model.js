@@ -5,7 +5,7 @@ let modelFactory = function (defaultDay = 1) {
 
 function Model(defaultDays = 1){
   this.days = [];
-  this.currentDay = 1;
+  this.displayDay = 1;
   this.addDay(defaultDays);
 
 }
@@ -13,25 +13,28 @@ function Model(defaultDays = 1){
 Model.prototype.addDay = function (qty = 1) {
   for (let i = 0; i < qty; i++){
     let newDay = new Day();
-    this.days.push({});
-    $.post('api/days', {})
+    this.days.push(newDay);
+    $.post('api/days', {
+      number: this.days.length,
+      hotel: newDay.hotel,
+      restaurants: newDay.restaurants,
+      activities: newDay.activities,
+    })
       .then(function () {
-        console.log('POST made')
       })
       .catch(function(err){
-        console.log("error storing", err);
+        console.log(err);
       });
   }
 };
 
 Model.prototype.removeDay = function (dayNum) {
   this.days.splice(dayNum-1,1);
-  this.currentDay -= 1;
-  itinerary.render()
+  this.displayDay -= 1;
 };
 
 Model.prototype.currentDay = function () {
-  return this.days[this.currentDay - 1];
+  return this.days[this.displayDay - 1];
 };
 
 
@@ -42,12 +45,10 @@ function Day() {
 }
 
 Day.prototype.addItineraryItem = function (type, name) {
-  console.log(this);
-  console.log(type);
-  if (type == 'hotel') {
+  if (type === 'hotel') {
     this[type][0] = {name: name};
   } else {
     this[type].push({name: name})
   }
-  itinerary.render()
-};
+}
+

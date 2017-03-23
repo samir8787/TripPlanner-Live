@@ -24,11 +24,12 @@ let optionPanelFactory = function() {
       let selectDropdown = addButton.prev();
       let attractionName = selectDropdown.val();
       tripplanner.model.currentDay().addItineraryItem(attractionType, attractionName);
+      tripplanner.itineraryPanel.display();
     });
   };
 
   return {
-    loadOptions: function () {
+    load: function () {
       loadOptions(hotelChoices, tripplanner.getHotels());
       loadOptions(restaurantChoices, tripplanner.getRestaurants());
       loadOptions(activityChoices, tripplanner.getActivities());
