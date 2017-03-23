@@ -21,23 +21,30 @@ let tripPlannerModule =  function(){
     return getResource('restaurants')
   };
 
-
   let getActivities = function () {
     return getResource('activities')
   };
 
+  let getDays = function () {
+    return getResource('days')
+  };
+
+
 
   return {
-    loadPage: function () {
-      this.optionsPanel.load();
-      this.itineraryPanel.load();
-    },
     model: modelFactory(1),
     optionsPanel: optionPanelFactory(),
     itineraryPanel: itineraryPanelFactory(),
-    getHotels: getHotels,
-    getRestaurants: getRestaurants,
-    getActivities: getActivities
+    getDays: getDays,
+    loadPage: function () {
+      this.hotels = getHotels();
+      this.restaurants = getActivities();
+      this.activities = getActivities();
+      this.model.load();
+      this.optionsPanel.load();
+      this.itineraryPanel.load();
+
+    },
   }
 };
 

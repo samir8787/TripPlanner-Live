@@ -9,7 +9,7 @@ let optionPanelFactory = function() {
   let loadOptions = function (select, promise){
     promise.then(function(data){
       data.forEach(function(data){
-        select.append('<option>'+data.name+'</option>')
+        select.append(`<option data-value="${data.id}">${data.name}</option>`)
       })
     })
       .catch(function(err){
@@ -20,19 +20,20 @@ let optionPanelFactory = function() {
   let attachOptionHandler = function () {
     optionPanel.on('click', 'button', function () {
       let addButton = $(this);
-      let attractionType = addButton.data('type');
       let selectDropdown = addButton.prev();
+      let attractionType = addButton.data('type');
       let attractionName = selectDropdown.val();
-      tripplanner.model.currentDay().addItineraryItem(attractionType, attractionName);
+      let attractionId = selectDropdown.find(':selected').data('value');
+      tripplanner.model.currentDay().addItineraryItem(attractionType, attractionName, attractionId);
       tripplanner.itineraryPanel.display();
     });
   };
 
   return {
     load: function () {
-      loadOptions(hotelChoices, tripplanner.getHotels());
-      loadOptions(restaurantChoices, tripplanner.getRestaurants());
-      loadOptions(activityChoices, tripplanner.getActivities());
+      loadOptions(hotelChoices, tripplanner.hotels);
+      loadOptions(restaurantChoices, tripplanner.restaurants);
+      loadOptions(activityChoices, tripplanner.activities);
       attachOptionHandler()
     }
   }

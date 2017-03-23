@@ -11,7 +11,7 @@ let itineraryPanelFactory = function (){
     dayButtons.on('click', 'button', function () {
       const button = this;
       if (button.id === 'day-add') {
-        tripplanner.model.addDay();
+        tripplanner.model.addDays();
         tripplanner.itineraryPanel.display();
       } else{
       tripplanner.itineraryPanel.display(button.textContent);

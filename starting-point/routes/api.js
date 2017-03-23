@@ -39,14 +39,15 @@ router.get('/activities', function (req, res, next) {
 });
 
 router.get('/days', function (req, res, next) {
- Day.findAll().then(function(day){
+ Day.findAll({
+   include: [Hotel, Restaurant, Activity]
+ }).then(function(day){
    res.json(day)
  })
  .catch(next);
 });
 
 router.post('/days', function (req, res, next) {
-  console.log('posting body', req.body)
   Day.findOrCreate({
     where: {
       number: req.body.number,
@@ -62,7 +63,8 @@ router.get('/days/:num', function (req, res, next) {
   Day.findOne({
     where: {
       number: req.params.num
-    }
+    },
+    include: [Hotel]
   }).then(function(day){
     res.json(day);
   }). catch(next);
@@ -71,8 +73,12 @@ router.get('/days/:num', function (req, res, next) {
 
 
 router.put('/days/:num', function (req, res, next) {
-
-
+  Day.findById(req.params.num)
+    .then( (day) => day.setHotel(req.body.hotelId))
+    .then( (day) => {
+      res.json(day)
+      })
+    .catch(next);
 });
 
 module.exports = router;
