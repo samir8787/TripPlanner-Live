@@ -52,6 +52,7 @@ router.post('/days', function (req, res, next) {
       console.log(day)
     })
     .catch(next);
+  res.sendStatus(200)
 });
 
 router.get('/days/:num', function (req, res, next) {
